@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    
+    <title>Google Colab</title>
+</head>
+<body>
+    <div class="exp1">
+        <h1>Experiment No. 01</h1>
+        <p>
+            import cv2<br>
+            import numpy as np<br>
+            from google.colab.patches import cv2_imshow<br>
+            from matplotlib import pyplot as plt<br>
+            imga = cv2.imread('levi1.jpg')<br>
+            cv2_imshow(imga)<br>
+            np.shape(imga)<br>
+            imgb = cv2.cvtColor(imga, cv2.COLOR_BGR2GRAY)<br>
+            cv2_imshow(imgb)<br>
+            np.shape(imgb)<br>
+            imgc = 255 - imgb<br>
+            cv2_imshow(imgc)<br>
+        </p>
+    </div>
+    <div class="exp1">
+        <h1>Experiment No. 02</h1>
+        <p>
+            import cv2<br> 
+            import numpy as np<br> 
+            import matplotlib.pyplot as plt<br> 
+            # Read an image<br> 
+            image = cv2.imread('levi1.jpg')<br> 
+            # Apply log transformation method<br> 
+            c = 255 / np.log(1 + np.max(image))<br> 
+            log_image = c * (np.log(image + 1))<br> 
+            # Specify the data type so that<br> 
+            # float value will be converted to int<br> 
+            log_image = np.array(log_image, dtype = np.uint8)<br> 
+            # Display both images<br> 
+            plt.imshow(image)<br> 
+            plt.show()<br> 
+            plt.imshow(log_image)<br> 
+            plt.show()<br>
+        </p>
+    </div>
+    <div class="exp1">
+        <h1>Experiment No. 03</h1>
+        <p>
+            import cv2<br>
+            import numpy as np<br>
+            import matplotlib.pyplot as plt<br>
+<br>
+            img = cv2.imread('levi1.jpg')<br>
+<br>
+            for gamma in [0.1, 0.5, 1.2, 2.2]:<br>
+            gamma_corrected = np.array(255*(img/255)**gamma, dtype = np.uint8)<br>
+<br>
+            cv2.imwrite('gamma_transformed'+str(gamma)+'.jpg', gamma_corrected)<br>
+<br>
+            plt.imshow(gamma_corrected)<br>
+            plt.show()<br>
+        </p>
+    </div>
+    <div class="exp1">
+        <h1>Experiment No. 04</h1>
+        <p>
+            import cv2<br>
+            import numpy as np<br>
+            import matplotlib.pyplot as plt<br>
+            # from matplotlib import pyplot as plt<br>
+            %matplotlib inline<br>
+            from google.colab.patches import cv2_imshow<br>
+            %clear<br>
+            A=cv2.imread('levi1.jpg')<br>
+            cv2_imshow(A)<br>
+            gray=cv2.cvtColor(A,cv2.COLOR_BGR2GRAY)<br>
+            (n,m)=(gray.shape)<br>
+            k=0<br>
+            H=np.zeros((256), dtype = int)<br>
+            print(H)<br>
+            while k< 256:<br>
+                H[k]=np.count_nonzero(gray==k)<br>
+                k=k+1<br>
+            <br>
+            Intensity=np.arange(0,256,1)<br>
+            print(Intensity)<br>
+            print(H)<br>
+            plt.bar(Intensity,H,color='maroon', width=0.5)<br>
+            plt.xlabel("Intensity")<br>
+            plt.ylabel("Frequency")<br>
+            plt.title("Histogram")<br>
+            plt.show()<br>
+        </p>
+    </div>
+    <div class="exp1">
+        <h1>Experiment No. 06</h1>
+        <p>
+            import cv2<br>
+            import numpy as np<br>
+            from google.colab.patches import cv2_imshow<br>
+<br>
+            img = cv2.imread('levi1.jpg', 0)<br>
+            (m,n) = img.shape<br>
+<br>
+            mask = np.ones([3,3], dtype = int)<br>
+            mask = mask/9<br>
+<br>
+            img_new = np.zeros([m,n])<br>
+<br>
+            for i in range(1,m-1):<br>
+                for j in range(1,n-1):<br>
+                    temp = img[i-1,j-1]*mask[0,0] + img[i-1,j]*mask[0,1] +img[i-1,j+1]*mask[0,2] +img[i,j-1]*mask[1,0] +img[i,j]*mask[1,1] +img[i,j+1]*mask[1,2] +img[i+1,j-1]*mask[2,0] +img[i+1,j]*mask[2,1] +img[i+1,j+1]*mask[2,2]<br> 
+<br>
+                    img_new[i,j] = temp<br>
+<br>
+            cv2_imshow(img)<br>
+            img_new = img_new.astype(np.uint8)<br>
+            cv2_imshow(img_new)<br>
+            cv2.imwrite('blurred.tif', img_new)<br>
+        </p>
+    </div>
+    <div class="exp1">
+        <h1>Experiment No. 07</h1>
+        <p>
+            import cv2<br>
+            import numpy as np<br>
+            from google.colab.patches import cv2_imshow<br>
+<br>
+            img = cv2.imread('levi1.jpg', 0)<br>
+<br>
+            kernel = np.ones((5,5), np.uint8)<br>
+<br>
+            img_erosion = cv2.erode(img, kernel, iterations=1)<br>
+            img_dilation = cv2.dilate(img, kernel, iterations=1)<br>
+            cv2_imshow(img)<br>
+            cv2_imshow(img_erosion)<br>
+            cv2_imshow(img_dilation)<br>
+        </p>
+    </div>
+</body>
+</html>
