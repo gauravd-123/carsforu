@@ -10,135 +10,140 @@
 </head>
 <body>
     <div class="exp1">
-        <h1>Experiment No. 01</h1>
-        <p>
-            import cv2<br>
-            import numpy as np<br>
-            from google.colab.patches import cv2_imshow<br>
-            from matplotlib import pyplot as plt<br>
-            imga = cv2.imread('levi1.jpg')<br>
-            cv2_imshow(imga)<br>
-            np.shape(imga)<br>
-            imgb = cv2.cvtColor(imga, cv2.COLOR_BGR2GRAY)<br>
-            cv2_imshow(imgb)<br>
-            np.shape(imgb)<br>
-            imgc = 255 - imgb<br>
-            cv2_imshow(imgc)<br>
-        </p>
-    </div>
-    <div class="exp1">
         <h1>Experiment No. 02</h1>
         <p>
-            import cv2<br> 
-            import numpy as np<br> 
-            import matplotlib.pyplot as plt<br> 
-            # Read an image<br> 
-            image = cv2.imread('levi1.jpg')<br> 
-            # Apply log transformation method<br> 
-            c = 255 / np.log(1 + np.max(image))<br> 
-            log_image = c * (np.log(image + 1))<br> 
-            # Specify the data type so that<br> 
-            # float value will be converted to int<br> 
-            log_image = np.array(log_image, dtype = np.uint8)<br> 
-            # Display both images<br> 
-            plt.imshow(image)<br> 
-            plt.show()<br> 
-            plt.imshow(log_image)<br> 
-            plt.show()<br>
+            clc<br>
+            pt = input('Enter the transmitted power in watts');<br>
+            gt = input('Enter the gain of transmitter');<br>
+            gr = input('Enter the gain of receiver');<br>
+            f = input('Enter the operating frequency');<br>
+            d = input('Enter the distance at which power received is to be calculated');<br>
+            % Calculating power in watts<br>
+            pr = ((pt*gt*gr)*((3*10^8)/f)^2)/(4*3.14159*d)^2<br>
+            % Displaying the power received<br>
+            x1 = sprintf('Power received at distance %d=%d',d,pr);<br>
+            disp(x1);<br>
+            pdb = 10*log10(pr)<br>
+            % Calculating the power received in db<br>
+            x2 = sprintf('Power received at distance %d in db =%d',d,pdb);<br>
+            disp(x2);<br>
+            
+            pdbm = 10*log10(pr/10^-3);<br>
+            % Displaying the power received at distance %d in dbm =%d',d,pdbm);<br>
+            x3 = sprintf('Power received at distance %d in dbm=%d',d,pdbm);<br>
+            disp(x3);<br>
         </p>
     </div>
     <div class="exp1">
         <h1>Experiment No. 03</h1>
         <p>
-            import cv2<br>
-            import numpy as np<br>
-            import matplotlib.pyplot as plt<br>
-<br>
-            img = cv2.imread('levi1.jpg')<br>
-<br>
-            for gamma in [0.1, 0.5, 1.2, 2.2]:<br>
-            gamma_corrected = np.array(255*(img/255)**gamma, dtype = np.uint8)<br>
-<br>
-            cv2.imwrite('gamma_transformed'+str(gamma)+'.jpg', gamma_corrected)<br>
-<br>
-            plt.imshow(gamma_corrected)<br>
-            plt.show()<br>
+            clearall;<br>
+            % element numbers<br>
+            N = 5;<br>
+            % element spacing<br>
+            d = 0.5;<br>
+            % theta zero direction<br>
+            % 90 degree for broadside, 0 degree for endfire.<br>
+            theta_zero=90;<br>
+            An=1;<br>
+            j=sqrt(-1);<br>
+            f = zeros(1,360);<br>
+            for theta = 1:1:360<br>
+            % change degree to radian<br>
+            deg2rad(theta) = (theta*pi)/180;<br>
+            if theta == 180 || theta == 360<br>
+            % g = 0 if theta = 180 or 360<br>
+            g(theta) = 0;<br>
+            else<br>
+            % element pattern of dipole antenna<br>
+            g(theta) = abs((cos(pi*cos(deg2rad(theta))/2))/sin(deg2rad(theta)));<br>
+            end<br>
+            %array factor calculation<br>
+            for n=0:N-1<br>
+            f(theta) = f(theta)+ An*exp(j*n*2*pi*d*(cos(deg2rad(theta))-
+            cos(theta_zero*pi/180))) ;<br>
+            end<br>
+            f(theta) = abs(f(theta));<br>
+            % pattern multiplication<br>
+            F(theta) = abs(g(theta)*f(theta));<br>
+            end<br>
+            figure(1)<br>
+            polar(deg2rad,g)<br>
+            title('Element Pattern of Dipole');<br>
+            figure(2)<br>
+            polar(deg2rad,f)<br>
+            title('Array Factor');<br>
+            figure(3)<br>
+            polar(deg2rad,F)<br>
+            title('Total Pattern of Dipole');<br>
         </p>
     </div>
     <div class="exp1">
         <h1>Experiment No. 04</h1>
         <p>
-            import cv2<br>
-            import numpy as np<br>
-            import matplotlib.pyplot as plt<br>
-            # from matplotlib import pyplot as plt<br>
-            %matplotlib inline<br>
-            from google.colab.patches import cv2_imshow<br>
-            %clear<br>
-            A=cv2.imread('levi1.jpg')<br>
-            cv2_imshow(A)<br>
-            gray=cv2.cvtColor(A,cv2.COLOR_BGR2GRAY)<br>
-            (n,m)=(gray.shape)<br>
-            k=0<br>
-            H=np.zeros((256), dtype = int)<br>
-            print(H)<br>
-            while k< 256:<br>
-                H[k]=np.count_nonzero(gray==k)<br>
-                k=k+1<br>
-            <br>
-            Intensity=np.arange(0,256,1)<br>
-            print(Intensity)<br>
-            print(H)<br>
-            plt.bar(Intensity,H,color='maroon', width=0.5)<br>
-            plt.xlabel("Intensity")<br>
-            plt.ylabel("Frequency")<br>
-            plt.title("Histogram")<br>
-            plt.show()<br>
+            % sum=0.0;<br>
+            N=input(’Enter the number of segments in the theta direction<br>
+            for i=1:N<br>
+            thetai=(pi/N)*(i-0.5);<br>
+            sum=sum+(cos((pi/2)*cos(thetai)))^2/sin(thetai);<br>
+            end<br>
+            D=(2*N)/(pi*sum)<br>
+            OUTPUT :<br>
+            Enter number of segments in the theta direction<br>
+            5<br>
+            D =<br>
+            1.6428<br>
+            Enter number of segments in the theta direction<br>
+            10<br>
+            half-wavelength dipole antenna is given by Zin = 73 + j42.5 Ohms. The
+            become resonant. If the dipole's length is reduced to
+            gments ome direction\n’);<br>
+            D =<br>
+            1.6410<br>
+            Enter number of segments in the theta direction<br>
+            15<br>
+            D =<br>
+            1.6409<br>
+            Enter number of segments in the theta direction<br>
+            20<br>
+            D =<br>
+            1.6409<br>
+        </p>
+    </div>
+    <div class="exp1">
+        <h1>Experiment No. 05</h1>
+        <p>
+            %This program print pattern for Loop Antenna by giving the %radius of your Loop and the wavelength you work with<br>
+            clc;<br>
+            lamda=input('enter the value of wave length= ');<br>
+            a=input('enter your loop radius a= ');<br>
+            B=(2*pi/lamda);<br>
+            theta= pi/100:pi/100:2*pi;<br>
+            E=besselj(1,B*a.*sin(theta));<br>
+            polar(theta,E)<br>
+            OUTPUT :<br>
+            enter the value of wave length= 1<br>
+            enter your loop radius a= 0.5<br>
         </p>
     </div>
     <div class="exp1">
         <h1>Experiment No. 06</h1>
         <p>
-            import cv2<br>
-            import numpy as np<br>
-            from google.colab.patches import cv2_imshow<br>
-<br>
-            img = cv2.imread('levi1.jpg', 0)<br>
-            (m,n) = img.shape<br>
-<br>
-            mask = np.ones([3,3], dtype = int)<br>
-            mask = mask/9<br>
-<br>
-            img_new = np.zeros([m,n])<br>
-<br>
-            for i in range(1,m-1):<br>
-                for j in range(1,n-1):<br>
-                    temp = img[i-1,j-1]*mask[0,0] + img[i-1,j]*mask[0,1] +img[i-1,j+1]*mask[0,2] +img[i,j-1]*mask[1,0] +img[i,j]*mask[1,1] +img[i,j+1]*mask[1,2] +img[i+1,j-1]*mask[2,0] +img[i+1,j]*mask[2,1] +img[i+1,j+1]*mask[2,2]<br> 
-<br>
-                    img_new[i,j] = temp<br>
-<br>
-            cv2_imshow(img)<br>
-            img_new = img_new.astype(np.uint8)<br>
-            cv2_imshow(img_new)<br>
-            cv2.imwrite('blurred.tif', img_new)<br>
-        </p>
-    </div>
-    <div class="exp1">
-        <h1>Experiment No. 07</h1>
-        <p>
-            import cv2<br>
-            import numpy as np<br>
-            from google.colab.patches import cv2_imshow<br>
-<br>
-            img = cv2.imread('levi1.jpg', 0)<br>
-<br>
-            kernel = np.ones((5,5), np.uint8)<br>
-<br>
-            img_erosion = cv2.erode(img, kernel, iterations=1)<br>
-            img_dilation = cv2.dilate(img, kernel, iterations=1)<br>
-            cv2_imshow(img)<br>
-            cv2_imshow(img_erosion)<br>
-            cv2_imshow(img_dilation)<br>
+            %This program print pattern for linear Array (uniform) Antenna %by giving N,alfa,d and the wavelength you work with<br>
+            %if you want full pattern multiply this pattern by any Antenna %pattern clc;<br>
+            lamda=input('enter the value of wave length= ');<br>
+            N=input('enter the no. of elements(3,4,5...)= ');<br>
+            alfa=input('enter your progressive phase(alpha=0,45...)= '); d=input('enter the seperation distance between elements(in terms of lamda for ex: 0.3 for 0.3lamda)= ');<br>
+            B=(2*pi/lamda);<br>
+            theta= pi/100:pi/100:2*pi;<br>
+            w=alfa+B*d.*cos(theta);<br>
+            AF=sinc(N*(w./2))./sinc(w./2);<br>
+            polar(theta,AF)<br>
+            OUTPUT :<br>
+            enter the value of wave length= 1<br>
+            enter the no. of elements(3,4,5...)= 6<br>
+            enter your progressive phase(alpha=0,45...)= 0<br>
+            enter the seperation distance between elements(in terms of lamda for ex: 0.3 for 0.3lamda)= 0.3<br>
         </p>
     </div>
 </body>
